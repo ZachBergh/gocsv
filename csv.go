@@ -2,7 +2,6 @@ package utils
 
 import (
 	"encoding/csv"
-	"gopkg.in/mgo.v2/bson"
 	"os"
 	"reflect"
 	"sort"
