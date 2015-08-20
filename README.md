@@ -20,6 +20,10 @@ Params:
         if len(header) <= 0 , will create default header
     data []interface{}: source data
 */
+fileName := "data.csv"
+path := ""
+header := []string{}
+data := SourceData
 
 err := gocsv.NewCsvFile(fileName, path, header, data)
 if err != nil {
