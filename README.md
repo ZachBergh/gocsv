@@ -2,13 +2,12 @@
 
 A data to csv file productor tool.
 
-#### Installation
+# Installation
 ````
 go get github.com/ZachBergh/gocsv
 ````
----
 
-#### Usage
+# Usage
 
 ````
 import "github.com/ZachBergh/gocsv"
@@ -27,9 +26,8 @@ if err != nil {
     return err
 }
 ````
----
 
-#### Features
+# Features
 
 * Auto Create
 * Auto Header
