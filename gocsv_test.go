@@ -15,6 +15,9 @@ func Test_Gocsv(t *testing.T) {
 	}
 	defer resp.Body.Close()
 	request, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		t.Error(err.Error())
+	}
 
 	var data struct {
 		TotalCount       int           `json:"total_count"`
