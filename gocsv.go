@@ -15,32 +15,32 @@ type CsvFile struct {
 	data     []interface{}
 }
 
-func (this *CsvFile) CreateCsvFile() error {
+func (c *CsvFile) CreateCsvFile() error {
 
 	var err error
 
-	f, err := os.Create(this.Path + this.FileName)
+	f, err := os.Create(c.Path + c.FileName)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 	w := csv.NewWriter(f)
 
-	for k, v := range this.data {
+	for k, v := range c.data {
 		if k == 0 {
-			if len(this.Header) <= 0 || this.Header == nil {
-				this.Header = this.CreateHeader(v, "")
+			if len(c.Header) <= 0 || c.Header == nil {
+				c.Header = c.CreateHeader(v, "")
 			}
-			w.Write(this.Header)
+			w.Write(c.Header)
 		}
-		row := this.CreateRow(v)
+		row := c.CreateRow(v)
 		w.Write(row)
 		w.Flush()
 	}
 	return err
 }
 
-func (this *CsvFile) CreateHeader(data interface{}, prefix string) (result []string) {
+func (c *CsvFile) CreateHeader(data interface{}, prefix string) (result []string) {
 	if data == nil {
 		return
 	}
@@ -64,10 +64,10 @@ func (this *CsvFile) CreateHeader(data interface{}, prefix string) (result []str
 		switch vtype.Kind() {
 		case reflect.Slice, reflect.Array:
 			for ik, iv := range mapV[k].([]interface{}) {
-				result = CombineStringSlice(result, this.CreateHeader(iv, k+"."+strconv.Itoa(ik)))
+				result = CombineStringSlice(result, c.CreateHeader(iv, k+"."+strconv.Itoa(ik)))
 			}
 		case reflect.Struct, reflect.Map:
-			result = CombineStringSlice(result, this.CreateHeader(mapV[k], k))
+			result = CombineStringSlice(result, c.CreateHeader(mapV[k], k))
 		default:
 			result = append(result, prefix+k)
 		}
@@ -75,7 +75,7 @@ func (this *CsvFile) CreateHeader(data interface{}, prefix string) (result []str
 	return
 }
 
-func (this *CsvFile) CreateRow(data interface{}) (result []string) {
+func (c *CsvFile) CreateRow(data interface{}) (result []string) {
 	if data == nil {
 		return
 	}
@@ -108,7 +108,7 @@ func (this *CsvFile) CreateRow(data interface{}) (result []string) {
 		case reflect.String:
 			result = append(result, vtype.String())
 		case reflect.Struct, reflect.Map:
-			result = CombineStringSlice(result, this.CreateRow(mapV[k]))
+			result = CombineStringSlice(result, c.CreateRow(mapV[k]))
 		case reflect.Bool:
 			boolVal := "false"
 			if vtype.Bool() {
@@ -117,7 +117,7 @@ func (this *CsvFile) CreateRow(data interface{}) (result []string) {
 			result = append(result, boolVal)
 		case reflect.Slice, reflect.Array:
 			for _, iv := range mapV[k].([]interface{}) {
-				result = CombineStringSlice(result, this.CreateRow(iv))
+				result = CombineStringSlice(result, c.CreateRow(iv))
 			}
 		}
 	}
