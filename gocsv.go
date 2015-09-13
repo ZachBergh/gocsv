@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+// CSV struction
 type CsvFile struct {
 	FileName string
 	Path     string
