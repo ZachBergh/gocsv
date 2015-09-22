@@ -48,6 +48,10 @@ func (c *CsvFile) CreateHeader(data interface{}, prefix string) (result []string
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+	if reflect.ValueOf(data).Kind() == reflect.String {
+		result = append(result, reflect.ValueOf(data).String())
+		return
+	}
 	mapV := data.(map[string]interface{})
 	var keys []string
 	for k := range mapV {
